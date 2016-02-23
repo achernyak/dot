@@ -30,6 +30,7 @@ values."
      company-mode
      erlang
      elixir
+     haskell
      dash
      javascript
      osx
