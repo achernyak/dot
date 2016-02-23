@@ -1,0 +1,12 @@
+session_name: ptp
+windows:
+  - window_name: main
+    layout: main-vertical
+    shell_command_before:
+      - cd ~/work/ng-ptp
+    panes:
+      - shell_command:
+        - git pull
+        - gulp
+      - shell_command:
+        - atom .

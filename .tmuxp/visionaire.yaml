@@ -1,0 +1,23 @@
+session_name: visionaire
+windows:
+  - window_name: web
+    layout: main-vertical
+    shell_command_before:
+      - cd ~/work/usit-visionaire/src/main/webapp/
+    panes:
+      - shell_command:
+        - git pull
+        - grunt server
+      - shell_command:
+        - atom .
+  - window_name: java
+    layout: main-vertical
+    panes:
+      - shell_command:
+        - cd ~/work/usit-visionaire/
+        - mvn spring-boot:run
+  - window_name: db
+    layout: main-vertical
+    panes:
+      - shell_command:
+        - mysqld
