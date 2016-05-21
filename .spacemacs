@@ -25,22 +25,33 @@ values."
      ;; ----------------------------------------------------------------
      auto-completion
      ;; better-defaults
-     emacs-lisp
      git
      company-mode
+     emacs-lisp
      erlang
      elixir
      haskell
-     dash
      javascript
-     osx
+     java
+     common-lisp
+     clojure
      html
+     (ruby :variables ruby-version-manager 'rvm
+           ruby-test-runner 'rspec
+           rspec-use-rvm t
+           rspec-use-bundler-when-possible t
+           rspec-use-spring-when-possible nil)
+     ruby-on-rails
+     dash
+     osx
      colors
      editorconfig
      themes-megapack
      perspectives
      markdown
      org
+     erc
+     (spell-checking :variables spell-checking-enable-by-default nil)
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -107,13 +118,13 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(zenburn
+                         spacemacs-dark
                          spacemacs-light
                          solarized-light
                          solarized-dark
                          leuven
-                         monokai
-                         zenburn)
+                         monokai)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -250,6 +261,23 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
+  (eval-after-load "erc"
+    '(progn
+
+       ;; Set personal information
+       (setq erc-nick "achernya")
+       (setq erc-user-full-name "Artem Chernyak")
+
+       ;; Set autojoin channels
+       (setq erc-autojoin-channels-alist
+             '(("freenode.net" "#emacs" "#lisp")))))
+
+  ;; Set autoconnect network
+  (defun my-erc ()
+    "Connect to my default ERC servers."
+
+    (interactive)
+    (erc-tls :server "irc.freenode.net" :port 7000))
   )
 
 (defun dotspacemacs/user-config ()
@@ -258,7 +286,13 @@ This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
   (add-hook 'alchemist-mode-hook 'company-mode)
   (global-linum-mode)
-  )
+  (setq eclim-eclipse-dirs "/Applications/Eclipse.app/Contents/Eclipse"
+        eclim-executable "/Applications/Eclipse.app/Contents/Eclipse/eclim")
+  (setq exec-path-from-shell-check-startup-files)
+  (setq-default js2-basic-offset 2)
+  (setq-default js-indent-level 2)
+  (load (expand-file-name "~/.roswell/lisp/quicklisp/slime-helper.el"))
+  (setq inferior-lisp-program "ros -L sbcl -Q run"))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
