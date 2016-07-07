@@ -68,6 +68,35 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+(setq org-todo-keywords '("TODO" "STARTED" "WAITING" "DONE"))
+
+(setq org-agenda-include-diary t)
+(setq org-agenda-include-all-todo t)
+(setq org-agenda-include-deadlines t)
+(setq org-indent-mode t)
+
+(setq org-capture-templates
+      '(("o" "Organizer" entry
+	 (file+headline "c:/Users/artem/Dropbox/org/organizer.org" "Inbox")
+	 "** TODO %?\n  %i\n")
+	("O" "Organizer with link" entry
+	 (file+headline "c:/Users/artem/Dropbox/org/organizer.org" "Inbox")
+	 "** TODO %?\n  %i\n  %A\n")
+	("w" "Work" entry
+	 (file+headline "c:/Users/artem/Dropbox/org/work.org" "Inbox")
+	 "** TODO %?\n  %i\n")
+	("W" "Work with link" entry
+	 (file+headline "c:/Users/artem/Dropbox/org/work.org" "Inbox")
+	 "** TODO %?\n  %i\n  %A\n")
+	("j" "Journal" entry
+	 (file+datetree "c:/Users/artem/Dropbox/org/journal.org")
+	 "* %?\nEntered on %U\n  %i\n  %a")))
+
 ;; slime
 (add-to-list 'exec-path "C:/Program Files/Steel Bank Common Lisp/1.3.6")
 (setq inferior-lisp-program "sbcl")
