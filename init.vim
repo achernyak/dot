@@ -1,4 +1,5 @@
 :imap fd <Esc>
+
 " Leader
 let mapleader = " "
 
@@ -17,9 +18,6 @@ set tabstop=2
 set shiftwidth=2
 set shiftround
 set expandtab
-
-" Display extra whitespace
-set list listchars=tab:»·,trail:·,nbsp:·
 
 " Use one space, not two, after punctuation.
 set nojoinspaces
@@ -64,31 +62,11 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
-" Neomake makers
-let g:neomake_jsx_enabled_makers = ['eslint']
-
-" Neomake
-autocmd! BufEnter,BufWritePost * Neomake
-let g:neomake_warning_sign = {
-  \ 'text': 'W',
-  \ 'texthl': 'WarningMsg',
-  \}
-
-let g:neomake_error_sign = {
-  \ 'text': 'W',
-  \ 'texthl': 'WarningMsg',
-  \}
-
-" Neomake keybindings
-nmap <Leader>o :lopen<CR>
-nmap <Leader>c :lclose<CR>
-nmap <Leader>, :ll<CR>
-nmap <Leader>n :lnext<CR>
-nmap <Leader>p :lprev<CR>
-
-" Tern
-let g:tern_map_keys=1
-let g:tern_show_argument_hints='on_hold'
+" Quicker buffer movement
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
 
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -102,8 +80,6 @@ Plug 'Valloric/YouCompleteMe'
 
 Plug 'xolox/vim-misc'
 
-Plug 'xolox/vim-easytags'
-
 Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'majutsushi/tagbar'
@@ -114,15 +90,66 @@ Plug 'MarcWeber/vim-addon-mw-utils'
 
 Plug 'tomtom/tlib_vim'
 
-Plug 'garbas/vim-snipmate'
+Plug 'SirVer/ultisnips'
 
-" Javascript 
+Plug 'honza/vim-snippets'
+
+Plug 'altercation/vim-colors-solarized'
+
+Plug 'vim-airline/vim-airline'
+
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'tpope/vim-fugitive'
+
+Plug 'easymotion/vim-easymotion'
+
+Plug 'airblade/vim-gitgutter'
+
+" Go
+Plug 'fatih/vim-go'
+
+" Javascript
 Plug 'ternjs/tern_for_vim'
 
 Plug 'benjie/neomake-local-eslint.vim'
 
-Plug 'flazz/vim-colorschemes'
-
 call plug#end()
 
-colorscheme materialtheme
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized
+
+" Neomake makers
+let g:neomake_jsx_enabled_makers = ['eslint']
+
+" Neomake
+autocmd! BufEnter,BufWritePost * Neomake
+let g:neomake_warning_sign = {
+  \ 'text': 'W',
+  \ 'texthl': 'WarningMsg',
+  \}
+
+let g:neomake_error_sign = {
+  \ 'text': 'E',
+  \ 'texthl': 'ErrorMsg',
+  \}
+
+" Neomake keybindings
+nmap <Leader>o :lopen<CR>
+nmap <Leader>c :lclose<CR>
+nmap <Leader>, :ll<CR>
+nmap <Leader>n :lnext<CR>
+nmap <Leader>p :lprev<CR>
+
+" Configure CtrlP to ingore git ignored files
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-strandard']
+
+" Tern
+let g:tern_map_keys=1
+let g:tern_show_argument_hints='on_hold'
+
+"Airline
+let g:airline#extensions#tabline#enable = 1
+
+
