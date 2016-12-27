@@ -1,6 +1,4 @@
 :imap fd <Esc>
-
-" Leader
 let mapleader = " "
 
 set backspace=2   " Backspace deletes like most programs in insert mode
@@ -117,7 +115,7 @@ Plug 'benjie/neomake-local-eslint.vim'
 call plug#end()
 
 set background=dark
-let g:solarized_termcolors=256
+" let g:solarized_termcolors=256
 colorscheme solarized
 
 " Neomake makers
@@ -151,5 +149,3 @@ let g:tern_show_argument_hints='on_hold'
 
 "Airline
 let g:airline#extensions#tabline#enable = 1
-
-
