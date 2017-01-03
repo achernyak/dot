@@ -29,7 +29,7 @@ set number
 set numberwidth=5
 
 " Switch between the last two files
-nnoremap <leader><leader> <c-^>
+nnoremap <Leader>b <c-^>
 
 " Get off my lawn
 nnoremap <Left> :echoe "Use h"<CR>
@@ -42,7 +42,7 @@ nnoremap <silent> <Leader>t :TestFile<CR>
 nnoremap <silent> <Leader>s :TestNearest<CR>
 nnoremap <silent> <Leader>l :TestLast<CR>
 nnoremap <silent> <Leader>a :TestSuite<CR>
-nnoremap <silent> <leader>gt :TestVisit<CR>
+nnoremap <silent> <Leader>gt :TestVisit<CR>
 
 " Run commands that require an interactive shell
 nnoremap <Leader>r :RunInInteractiveShell<space>
@@ -65,10 +65,11 @@ nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> [B :bfirst<CR>
 nnoremap <silent> ]B :blast<CR>
+nnoremap gb :ls<CR>:b
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 Plug 'neomake/neomake'
 
@@ -104,13 +105,17 @@ Plug 'easymotion/vim-easymotion'
 
 Plug 'airblade/vim-gitgutter'
 
+Plug 'jiangmiao/auto-pairs'
+
 " Go
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'for': 'go' }
 
-" Javascript
-Plug 'ternjs/tern_for_vim'
+" Javascript 
+Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'benjie/neomake-local-eslint.vim', { 'for': ['javascript', 'javascript.jsx'] }
 
-Plug 'benjie/neomake-local-eslint.vim'
+" Rails
+Plug 'tpope/vim-rails', { 'for': 'ruby' }
 
 call plug#end()
 
@@ -141,7 +146,7 @@ nmap <Leader>n :lnext<CR>
 nmap <Leader>p :lprev<CR>
 
 " Configure CtrlP to ingore git ignored files
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-strandard']
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 
 " Tern
 let g:tern_map_keys=1
@@ -149,3 +154,5 @@ let g:tern_show_argument_hints='on_hold'
 
 "Airline
 let g:airline#extensions#tabline#enable = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='solarized'
