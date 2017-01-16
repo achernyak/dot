@@ -7,9 +7,19 @@ set nowritebackup
 set history=50
 set ruler         " show the cursor position all the time
 set showcmd       " display incomplete commands
+set noshowmode
 set incsearch     " do incremental searching
+set hlsearch      " Highlight found searches 
+set ignorecase    " Search case insensitive...
+set smartcase     " ... but not when search pattern contains upper case chars
 set laststatus=2  " Always display the status line
 set autowrite     " Automatically :write before running commands
+set lazyredraw
+
+" softwrap
+set wrap
+set linebreak
+set nolist
 
 " Softtabs, 2 spaces
 set tabstop=2
@@ -67,6 +77,13 @@ nnoremap <silent> [B :bfirst<CR>
 nnoremap <silent> ]B :blast<CR>
 nnoremap gb :ls<CR>:b
 
+" Open file relative to the current file
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+map <leader>ew :e %%
+map <leader>es :sp %%
+map <leader>ev :vsp %%
+map <leader>et :tabe %%
+
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -120,7 +137,8 @@ Plug 'tpope/vim-rails', { 'for': 'ruby' }
 call plug#end()
 
 set background=dark
-" let g:solarized_termcolors=256
+let g:solarized_termcolors=256
+let g:solarized_termtrans=1
 colorscheme solarized
 
 " Neomake makers
@@ -153,6 +171,6 @@ let g:tern_map_keys=1
 let g:tern_show_argument_hints='on_hold'
 
 "Airline
-let g:airline#extensions#tabline#enable = 1
-let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enable=1
+let g:airline_powerline_fonts=1
 let g:airline_theme='solarized'
