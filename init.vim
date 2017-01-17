@@ -1,7 +1,9 @@
 :imap fd <Esc>
 let mapleader = " "
+let g:mapleader = " "
 
-set backspace=2   " Backspace deletes like most programs in insert mode
+set noerrorbells
+set backspace=indent,eol,start   " Backspace deletes like most programs in insert mode
 set nobackup
 set nowritebackup
 set history=50
@@ -15,28 +17,52 @@ set smartcase     " ... but not when search pattern contains upper case chars
 set laststatus=2  " Always display the status line
 set autowrite     " Automatically :write before running commands
 set lazyredraw
+set hidden
+set ttyfast
+set smarttab
+
+" speed up syntax highlighting
+set nocursorcolumn
+set nocursorline
 
 " softwrap
 set wrap
 set linebreak
 set nolist
+set formatoptions=qrn1
+set relativenumber
+set textwidth=79
+set colorcolumn=+1
 
-" Softtabs, 2 spaces
-set tabstop=2
-set shiftwidth=2
+" mail line wrapping
+au BufRead /tmp/mutt-* set tw=72
+
+set autoindent
+set complete-=i
+set showmatch
+set smarttab
+
+" Softtabs, 4 spaces
+set et
+set tabstop=4
+set shiftwidth=4
 set shiftround
 set expandtab
+
+" Time out on key codes but no mappings.
+set notimeout
+set ttimeout
+set ttimeoutlen=10
 
 " Use one space, not two, after punctuation.
 set nojoinspaces
 
-" Make it obvious where 80 characters is
-set textwidth=80
-set colorcolumn=+1
-
 " Numbers
 set number
 set numberwidth=5
+
+" Better Completion
+set complete=.,w,b,u,t
 
 " Switch between the last two files
 nnoremap <Leader>b <c-^>
@@ -83,6 +109,72 @@ map <leader>ew :e %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
+
+" Better CTRL-U
+inoremap <C-U> <C-G>u<C-U>
+
+" Remove search highlight
+nnoremap <leader><leader> :nohlsearch<CR>
+
+if has('mouse')
+  set mouse=a
+endif
+
+" If linux then set ttymouse
+let s:uname = system("echo -n \"$(uname)\"")
+if !v:shell_error && s:uname == "Linux" && !has('nvim')
+  set ttymouse=xterm
+endif
+
+if &history < 1000
+  set history=50
+endif
+
+if &tabpagemax < 50
+  set tabpagemax=50
+endif
+
+if !empty(&viminfo)
+  set viminfo^=!
+endif
+
+if !&scrolloff
+  set scrolloff=1
+endif
+if !&sidescrolloff
+  set sidescrolloff=5
+endif
+set display+=lastline
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+  " Enable file type detection.
+  " Use the default filetype settings, so that mail gets 'tw' set to 72,
+  " 'cindent' is on in C files, etc.
+  " Also load indent files, to automatically do language-dependent indenting.
+  filetype plugin indent on
+
+  " Put these in an autocmd group, so that we can delete them easily.
+  augroup vimrcEx
+    au!
+
+    " For all text files set 'textwidth' to 78 characters.
+    autocmd FileType text setlocal textwidth=78
+
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid or when inside an event handler
+    " (happens when dropping a file on gvim).
+    " Also don't do it when the mark is in the first line, that is the default
+    " position when opening a file.
+    autocmd BufReadPost *
+          \ if line("'\"") > 1 && line("'\"") <= line("$") |
+          \	exe "normal! g`\"" |
+          \ endif
+
+  augroup END
+else
+endif " has("autocmd")
 
 call plug#begin('~/.local/share/nvim/plugged')
 
