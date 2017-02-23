@@ -1,5 +1,6 @@
+
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/eg8517/.oh-my-zsh
+export ZSH=/Users/artemchernyak/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -88,13 +89,14 @@ export PATH="/usr/local/bin:$PATH"
 export NVM_DIR="/Users/artemchernyak/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# NVM
+export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
-export NVM_NODEJS_ORG_MIRROR=http://nodejs.org/dist
-export NVM_DIR="$HOME/.nvm"
-  . "/usr/local/opt/nvm/nvm.sh"
-export EDITOR=nvim
+alias vim=nvim
+export EDITOR="vim"
 
-if type nvim > /dev/null 2>&1; then
-  alias vim='nvim'
-fi
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+alias dc=docker-compose
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='pt -l ""'
