@@ -32,6 +32,7 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     yaml
      sql
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -45,6 +46,7 @@ values."
      emacs-lisp
      common-lisp
      clojure
+     go
      html
      (ruby :variables ruby-version-manager 'rvm
            ruby-test-runner 'rspec
@@ -286,6 +288,9 @@ layers configuration. You are free to put any user code."
   (setq exec-path-from-shell-check-startup-files t)
   ;; (load (expand-file-name "~/.roswell/lisp/quicklisp/slime-helper.el"))
   ;; (setq inferior-lisp-program "ros -L sbcl -Q run")
+
+  ;; Org mode
+  (add-hook 'org-mode-hook #'auto-fill-mode)
   (eval-after-load "org"
     '(require 'ox-md nil t))
 
@@ -296,9 +301,25 @@ layers configuration. You are free to put any user code."
           ("O" "Organizer with link" entry
            (file+headline "~/Dropbox/org/todo.org" "Inbox")
            "** TODO %?\n  %i\n  %A\n")
-          ("j" "Journal" entry
+          ("m" "Morning" entry
            (file+datetree "~/Dropbox/org/journal.org")
-           "* %?\n\nEntered on %U\n  %i\n")))
+           "
+* I am greatful for...
+** %?\n
+* What would make today great?
+** \n
+* Daily affirmation. I am...
+\nEntered on %U\n  %i\n")
+          ("e" "Evening" entry
+           (file+datetree "~/Dropbox/org/journal.org")
+           "
+* Amazing things that happened today...
+** %?\n
+* How could I have made today even better? \n
+\nEntered on %U\n  %i\n")))
+
+  ;; Go
+  (setq go-tab-width 4)
 
   ;; Clojure
   (setq clojure-enable-fancify-symbols t)
@@ -331,7 +352,7 @@ layers configuration. You are free to put any user code."
  '(custom-enabled-themes (quote (wombat)))
  '(delete-selection-mode t)
  '(evil-want-Y-yank-to-eol t)
- '(fci-rule-color "#383838" t)
+ '(fci-rule-color "#383838")
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
@@ -340,7 +361,7 @@ layers configuration. You are free to put any user code."
     ("c:/Users/artem/Dropbox/org/organizer.org" "c:/Users/artem/Dropbox/org/work.org" "c:/Users/artem/Dropbox/org/reading.org")))
  '(package-selected-packages
    (quote
-    (sql-indent writegood-mode smeargle orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc magit-gitflow htmlize gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-statistics clojure-snippets clj-refactor inflections edn multiple-cursors peg cider-eval-sexp-fu cider seq queue clojure-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete evil-cleverparens wgrep unfill smex mwim ivy-hydra flyspell-correct-ivy counsel-projectile counsel-dash swiper ivy zonokai-theme zen-and-art-theme zeal-at-point web-mode web-beautify underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme slim-mode seti-theme scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reverse-theme rbenv rainbow-mode rainbow-identifiers railscasts-theme purple-haze-theme pug-mode projectile-rails rake professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme org-plus-contrib noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minitest minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme livid-mode skewer-mode simple-httpd light-soap-theme less-css-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme helm-dash helm-css-scss hc-zenburn-theme haml-mode gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flycheck-mix flycheck-credo flatui-theme flatland-theme firebelly-theme feature-mode farmhouse-theme espresso-theme erlang erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks emmet-mode dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme company-web web-completion-data company-tern dash-functional tern common-lisp-snippets color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode coffee-mode clues-theme chruby cherry-blossom-theme busybee-theme bundler inf-ruby bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes alchemist elixir-mode afternoon-theme counsel swiper-helm helm-config ace-window org-bullets try which-key org-jekyll paredit-everywhere paredit helm-ispell latex-extra slime-company slime helm-projectile helm-company company markdown-preview-mode markdown-mode+ markdown-mode edit-server use-package)))
+    (yaml-mode go-guru go-eldoc company-go go-mode sql-indent writegood-mode smeargle orgit org-projectile org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc magit-gitflow htmlize gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-statistics clojure-snippets clj-refactor inflections edn multiple-cursors peg cider-eval-sexp-fu cider seq queue clojure-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete evil-cleverparens wgrep unfill smex mwim ivy-hydra flyspell-correct-ivy counsel-projectile counsel-dash swiper ivy zonokai-theme zen-and-art-theme zeal-at-point web-mode web-beautify underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tronesque-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme slim-mode seti-theme scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reverse-theme rbenv rainbow-mode rainbow-identifiers railscasts-theme purple-haze-theme pug-mode projectile-rails rake professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme pastels-on-dark-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme org-plus-contrib noctilux-theme niflheim-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minitest minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme livid-mode skewer-mode simple-httpd light-soap-theme less-css-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme helm-dash helm-css-scss hc-zenburn-theme haml-mode gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flycheck-mix flycheck-credo flatui-theme flatland-theme firebelly-theme feature-mode farmhouse-theme espresso-theme erlang erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks emmet-mode dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme company-web web-completion-data company-tern dash-functional tern common-lisp-snippets color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode coffee-mode clues-theme chruby cherry-blossom-theme busybee-theme bundler inf-ruby bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes alchemist elixir-mode afternoon-theme counsel swiper-helm helm-config ace-window org-bullets try which-key org-jekyll paredit-everywhere paredit helm-ispell latex-extra slime-company slime helm-projectile helm-company company markdown-preview-mode markdown-mode+ markdown-mode edit-server use-package)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
@@ -369,4 +390,5 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Monoid" :foundry "PfEd" :slant normal :weight normal :height 98 :width semi-condensed))))
  '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0)))))
