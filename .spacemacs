@@ -1,4 +1,3 @@
-
 ;; -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
@@ -21,7 +20,7 @@ values."
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'unused
+   dotspacemasudo apt-get -y install git build-essential automake libcurl4-openssl-devcs-enable-lazy-installation 'unused
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
@@ -56,7 +55,6 @@ values."
            rspec-use-spring-when-possible nil)
      dash
      colors
-     themes-megapack
      markdown
      org
      erc
@@ -132,13 +130,7 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(zenburn
-                         spacemacs-dark
-                         spacemacs-light
-                         solarized-light
-                         solarized-dark
-                         leuven
-                         monokai)
+   dotspacemacs-themes '(sanityinc-solarized-light)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -317,7 +309,16 @@ layers configuration. You are free to put any user code."
 * Amazing things that happened today...
 ** %?\n
 * How could I have made today even better? \n
-\nEntered on %U\n  %i\n")))
+\nEntered on %U\n  %i\n")
+          ("r" "Reading Notes" entry
+           (file+datetree "~/Dropbox/org/reading-notes.org")
+           "
+* WHAT
+  - %?
+* WHO
+* WHERE
+* WHEN
+")))
 
   ;; Go
   (setq go-tab-width 4)
@@ -341,7 +342,30 @@ layers configuration. You are free to put any user code."
                                (case-tpl . '1)
                                (cond-tpl . 'defun)))
                  (put-clojure-indent (car pair)
-                                     (car (last pair)))))))
+                                     (car (last pair))))))
+
+  ;; Lisp
+  (load (expand-file-name "~/.roswell/helper.el"))
+  (setq inferior-lisp-program "ros -Q run")
+  (add-hook 'lisp-mode-hook #'evil-cleverparens-mode)
+  (add-hook 'lisp-mode-hook #'smartparens-mode)
+
+  ;; Emacs-Lisp
+  (add-hook 'emacs-lisp-mode-hook #'evil-cleverparens-mode)
+  (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
+
+  ;; JavaScript
+  (defun use-eslint-from-node-modules ()
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root))))
+      (when (and eslint (file-executable-p esling))
+        (setq-local flycheck-javascript-eslint-executable eslint))))
+  (add-hook 'flycheck-mode-hook #'use-eslint-from-node-modules)
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -350,7 +374,6 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (wombat)))
  '(delete-selection-mode t)
  '(evil-want-Y-yank-to-eol t)
  '(fci-rule-color "#383838")
