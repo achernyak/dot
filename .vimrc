@@ -135,6 +135,12 @@ if has('mouse')
   set mouse=a
 endif
 
+" Backup, Swap and Undo
+set undofile
+set directory=~/.vim/swap,/tmp
+set backupdir=~/.vim/backup,/tmp
+set undodir=~/.vim/undo,/tmp
+
 " If linux then set ttymouse
 let s:uname = system("echo -n \"$(uname)\"")
 if !v:shell_error && s:uname == "Linux" && !has('nvim')
@@ -201,12 +207,15 @@ Plug 'sheerun/vim-polyglot'
 " General Functionality
 Plug 'ervandew/supertab'
 Plug 'tpope/vim-surround'
-Plug 'neomake/neomake'
+Plug 'w0rp/ale'
 Plug 'jiangmiao/auto-pairs'
 Plug 'sjl/gundo.vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
 Plug 'chiel92/vim-autoformat'
+
+" Utils
+Plug 'jaawerth/nrun.vim'
 
 " Visual
 Plug 'vim-airline/vim-airline'
@@ -225,10 +234,8 @@ Plug 'honza/vim-snippets'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
-" JavaScript
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'benjie/neomake-local-eslint.vim'
+" Python
+Plug 'davidhalter/jedi-vim'
 
 " Go
 Plug 'fatih/vim-go'
@@ -245,27 +252,32 @@ let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 colorscheme solarized
 
-" Neomake makers
-let g:neomake_jsx_enabled_makers = ['eslint']
+" Ale
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'python': ['pycodestyle'],
+\}
 
-" Neomake
-autocmd! BufWritePost * Neomake
-let g:neomake_warning_sign = {
-  \ 'text': 'W',
-  \ 'texthl': 'WarningMsg',
-  \}
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\   'python': ['autopep8'],
+\}
 
-let g:neomake_error_sign = {
-  \ 'text': 'E',
-  \ 'texthl': 'ErrorMsg',
-  \}
+let g:ale_linter_aliases = {
+\   'javacript.jsx': 'javascript',
+\   'jsx': 'javascript'
+\}
 
-" Neomake keybindings
+" Ale keybindings
 nmap <Leader>o :lopen<CR>
 nmap <Leader>c :lclose<CR>
 nmap <Leader>, :ll<CR>
 nmap <Leader>n :lnext<CR>
 nmap <Leader>p :lprev<CR>
+
+" Markdown
+let g:markdown_folding = 1
+let g:vim_markdown_no_default_key_mappings = 0
 
 " JavaScript
 let g:jsx_ext_required = 0
@@ -276,14 +288,6 @@ if fnamemodify(expand('%'), ':e') == "go"
 endif
 autocmd FileType go set tabstop=4|set shiftwidth=4
 let g:go_fmt_command = "goimports"
-
-" Rust
-let g:neomake_echo_current_error=3
-let g:neomake_open_list = 2
-let g:neomake_rust_enabled_makers = []
-let g:neomake_enabled_makers = ['cargo']
-let g:neomake_carg_args = ['check']
-autocmd! BufWritePost *.rs Neomake! cargo
 
 "Airline
 let g:airline#extensions#tabline#enable=1
@@ -325,3 +329,4 @@ command! -bang Colors
 
 command! -bang -nargs=* Find 
   \ call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
