@@ -1,6 +1,6 @@
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/artemchernyak/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -91,7 +91,6 @@ export NVM_DIR="/Users/artemchernyak/.nvm"
 
 export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
-alias vim=nvim
 export EDITOR="vim"
 
 export GOPATH=$HOME/go
