@@ -93,9 +93,25 @@ export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
 export EDITOR="vim"
 
+# Go
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
-alias dc=docker-compose
 
+# Rust
+export PATH=$PATH:~/.cargo/bin
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+
+# FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='pt -l ""'
+
+alias dc=docker-compose
+alias t="todolist"
+alias ta="todolist agenda"
+alias vim="nvim"
+alias ti="tmuxinator"
+
+if [[ "$TERM" != "screen-256color" ]] then
+    tmux attach-session -t "$USER" || tmux new-session -s "$USER"
+fi
+
