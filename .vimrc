@@ -50,8 +50,8 @@ set smarttab
 
 " Softtabs, 4 spaces
 set et
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set shiftround
 set expandtab
 
@@ -100,14 +100,8 @@ set splitright
 " Quicker window movement
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
+nnoremap <BS> <C-w>h
 nnoremap <C-l> <C-w>l
-
-" Quicker buffer movement
-nnoremap <silent> [b :bprevious<CR>
-nnoremap <silent> ]b :bnext<CR>
-nnoremap <silent> [B :bfirst<CR>
-nnoremap <silent> ]B :blast<CR>
 
 " Open file relative to the current file
 cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
@@ -256,11 +250,13 @@ colorscheme solarized
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'python': ['pycodestyle'],
+\   'rust': ['cargo'],
 \}
 
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \   'python': ['autopep8'],
+\   'rust': ['cargo'],
 \}
 
 let g:ale_linter_aliases = {
@@ -288,6 +284,15 @@ if fnamemodify(expand('%'), ':e') == "go"
 endif
 autocmd FileType go set tabstop=4|set shiftwidth=4
 let g:go_fmt_command = "goimports"
+
+"Rust
+let g:racer_cmd = "racer"
+let g:racer_experimental_completer = 1
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+let g:ale_rust_cargo_use_check = 1
 
 "Airline
 let g:airline#extensions#tabline#enable=1
