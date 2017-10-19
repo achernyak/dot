@@ -1,3 +1,4 @@
+export TERM="xterm-256color"
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -115,3 +116,4 @@ if [[ "$TERM" != "screen-256color" ]] then
     tmux attach-session -t "$USER" || tmux new-session -s "$USER"
 fi
 
+setxkbmap -option ctrl:nocaps # Make Caps Lock a Control key
