@@ -23,7 +23,6 @@ set spell spelllang=en_us
 " folds
 set foldmethod=syntax
 set nofoldenable
-let g:markdown_folding = 1
 nnoremap zA za
 nnoremap za zA
 
@@ -228,6 +227,10 @@ Plug 'honza/vim-snippets'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
+" Markdown
+Plug 'plasticboy/vim-markdown'
+Plug 'mzlogin/vim-markdown-toc'
+
 " Python
 Plug 'davidhalter/jedi-vim'
 
@@ -282,10 +285,10 @@ let g:jsx_ext_required = 0
 if fnamemodify(expand('%'), ':e') == "go"
   let b:SuperTabDefaultCompletionType = "<C-x><C-o>"
 endif
-autocmd FileType go set tabstop=4|set shiftwidth=4
+autocmd FileType go setlocal ts=4 sw=4
 let g:go_fmt_command = "goimports"
 
-"Rust
+" Rust
 let g:racer_cmd = "racer"
 let g:racer_experimental_completer = 1
 au FileType rust nmap gd <Plug>(rust-def)
@@ -293,6 +296,10 @@ au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
 let g:ale_rust_cargo_use_check = 1
+
+" Ruby
+au FileType ruby setlocal ts=2 sw=2
+au FileType eruby setlocal ts=2 sw=2
 
 "Airline
 let g:airline#extensions#tabline#enable=1
@@ -334,4 +341,3 @@ command! -bang Colors
 
 command! -bang -nargs=* Find 
   \ call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-
