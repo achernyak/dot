@@ -117,3 +117,4 @@ if [[ "$TERM" != "screen-256color" ]] then
 fi
 
 setxkbmap -option ctrl:nocaps # Make Caps Lock a Control key
+PATH="$HOME/bin:$PATH"
