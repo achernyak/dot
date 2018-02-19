@@ -40,7 +40,7 @@ set textwidth=79
 set colorcolumn=+1
 
 " mail line wrapping
-au BufRead /tmp/mutt-* set tw=72
+autocmd BufRead /tmp/mutt-* set tw=72
 
 set autoindent
 set complete-=i
@@ -160,94 +160,112 @@ if !&sidescrolloff
 endif
 set display+=lastline
 
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
-
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
-
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-    au!
-
-    " For all text files set 'textwidth' to 78 characters.
-    autocmd FileType text setlocal textwidth=78
-
-    " When editing a file, always jump to the last known cursor position.
-    " Don't do it when the position is invalid or when inside an event handler
-    " (happens when dropping a file on gvim).
-    " Also don't do it when the mark is in the first line, that is the default
-    " position when opening a file.
-    autocmd BufReadPost *
-          \ if line("'\"") > 1 && line("'\"") <= line("$") |
-          \	exe "normal! g`\"" |
-          \ endif
-
-  augroup END
-else
-endif " has("autocmd")
-
 call plug#begin('~/.vim/plugged')
+    " Basics
+    Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+    Plug 'tpope/vim-unimpaired'
+    Plug 'sheerun/vim-polyglot'
 
-" Basics
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'tpope/vim-unimpaired'
-Plug 'sheerun/vim-polyglot'
+    " General Functionality
+    Plug 'ervandew/supertab'
+    Plug 'tpope/vim-surround'
+    Plug 'w0rp/ale'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'sjl/gundo.vim'
+    Plug 'godlygeek/tabular'
+    Plug 'tpope/vim-commentary'
+    Plug 'chiel92/vim-autoformat'
+    Plug 'vimwiki/vimwiki'
 
-" General Functionality
-Plug 'ervandew/supertab'
-Plug 'tpope/vim-surround'
-Plug 'w0rp/ale'
-Plug 'jiangmiao/auto-pairs'
-Plug 'sjl/gundo.vim'
-Plug 'godlygeek/tabular'
-Plug 'tpope/vim-commentary'
-Plug 'chiel92/vim-autoformat'
+    " Utils
+    Plug 'jaawerth/nrun.vim'
 
-" Utils
-Plug 'jaawerth/nrun.vim'
+    " Visual
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'altercation/vim-colors-solarized'
 
-" Visual
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'altercation/vim-colors-solarized'
+    " FZF
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
+    Plug 'junegunn/fzf.vim'
 
-" FZF
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
-Plug 'junegunn/fzf.vim'
+    " Snippets
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
 
-" Snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+    " Git
+    Plug 'airblade/vim-gitgutter'
+    Plug 'tpope/vim-fugitive'
 
-" Git
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
+    " Markdown
+    Plug 'plasticboy/vim-markdown'
+    Plug 'mzlogin/vim-markdown-toc'
 
-" Markdown
-Plug 'plasticboy/vim-markdown'
-Plug 'mzlogin/vim-markdown-toc'
+    " Python
+    Plug 'davidhalter/jedi-vim'
 
-" Python
-Plug 'davidhalter/jedi-vim'
+    " Go
+    Plug 'fatih/vim-go'
 
-" Go
-Plug 'fatih/vim-go'
+    " Rails
+    Plug 'tpope/vim-rails'
 
-" Rails
-Plug 'tpope/vim-rails'
-
-" Rust
-Plug 'racer-rust/vim-racer'
+    " Rust
+    Plug 'racer-rust/vim-racer'
 call plug#end()
 
 set background=light
 let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 colorscheme solarized
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+    " Enable file type detection.
+    " Use the default filetype settings, so that mail gets 'tw' set to 72,
+    " 'cindent' is on in C files, etc.
+    " Also load indent files, to automatically do language-dependent indenting.
+    filetype plugin indent on
+
+    " Put these in an autocmd group, so that we can delete them easily.
+    augroup vimrcEx
+        au!
+
+        " For all text files set 'textwidth' to 78 characters.
+        autocmd FileType text setlocal textwidth=78
+
+        " When editing a file, always jump to the last known cursor position.
+        " Don't do it when the position is invalid or when inside an event handler
+        " (happens when dropping a file on gvim).
+        " Also don't do it when the mark is in the first line, that is the default
+        " position when opening a file.
+        autocmd BufReadPost *
+            \ if line("'\"") > 1 && line("'\"") <= line("$") |
+            \	exe "normal! g`\"" |
+            \ endif
+
+    augroup END
+
+    " General
+    runtime macros/matchit.vim
+    
+    " Go
+    autocmd FileType go setlocal ts=4 sw=4
+
+    " Rust
+    autocmd FileType rust nmap gd <Plug>(rust-def)
+    autocmd FileType rust nmap gs <Plug>(rust-def-split)
+    autocmd FileType rust nmap gx <Plug>(rust-def-vertical)
+    autocmd FileType rust nmap <leader>gd <Plug>(rust-doc)
+    
+    " Ruby
+    autocmd FileType ruby setlocal ts=2 sw=2
+    autocmd FileType eruby setlocal ts=2 sw=2
+
+
+else
+endif " has("autocmd")
 
 " Ale
 let g:ale_linters = {
@@ -285,21 +303,12 @@ let g:jsx_ext_required = 0
 if fnamemodify(expand('%'), ':e') == "go"
   let b:SuperTabDefaultCompletionType = "<C-x><C-o>"
 endif
-autocmd FileType go setlocal ts=4 sw=4
 let g:go_fmt_command = "goimports"
 
 " Rust
 let g:racer_cmd = "racer"
 let g:racer_experimental_completer = 1
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
 let g:ale_rust_cargo_use_check = 1
-
-" Ruby
-au FileType ruby setlocal ts=2 sw=2
-au FileType eruby setlocal ts=2 sw=2
 
 "Airline
 let g:airline#extensions#tabline#enable=1
