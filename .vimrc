@@ -39,9 +39,6 @@ set formatoptions=qrn1
 set textwidth=79
 set colorcolumn=+1
 
-" mail line wrapping
-autocmd BufRead /tmp/mutt-* set tw=72
-
 set autoindent
 set complete-=i
 set showmatch
@@ -228,12 +225,14 @@ if has("autocmd")
     " Also load indent files, to automatically do language-dependent indenting.
     filetype plugin indent on
 
+    runtime macros/matchit.vim
+
     " Put these in an autocmd group, so that we can delete them easily.
     augroup vimrcEx
         au!
 
-        " For all text files set 'textwidth' to 78 characters.
-        autocmd FileType text setlocal textwidth=78
+        " Line wrapping for mutt
+        autocmd BufRead /tmp/mutt-* setlocal tw=72
 
         " When editing a file, always jump to the last known cursor position.
         " Don't do it when the position is invalid or when inside an event handler
@@ -247,25 +246,41 @@ if has("autocmd")
 
     augroup END
 
-    " General
-    runtime macros/matchit.vim
-    
-    " Go
-    autocmd FileType go setlocal ts=4 sw=4
-
-    " Rust
-    autocmd FileType rust nmap gd <Plug>(rust-def)
-    autocmd FileType rust nmap gs <Plug>(rust-def-split)
-    autocmd FileType rust nmap gx <Plug>(rust-def-vertical)
-    autocmd FileType rust nmap <leader>gd <Plug>(rust-doc)
-    
-    " Ruby
-    autocmd FileType ruby setlocal ts=2 sw=2
-    autocmd FileType eruby setlocal ts=2 sw=2
-
-
 else
 endif " has("autocmd")
+
+" Markdown
+let g:markdown_folding = 1
+let g:vim_markdown_no_default_key_mappings = 0
+
+" JavaScript
+let g:jsx_ext_required = 0
+
+" Go
+if fnamemodify(expand('%'), ':e') == "go"
+  let b:SuperTabDefaultCompletionType = "<C-x><C-o>"
+endif
+let g:go_fmt_command = "goimports"
+
+" Rust
+let g:racer_cmd = "racer"
+let g:racer_experimental_completer = 1
+let g:ale_rust_cargo_use_check = 1
+
+" Vimwiki
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_global_ext = 0
+let g:vimwiki_table_mappings = 0
+
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+"Airline
+let g:airline#extensions#tabline#enable=1
+let g:airline_powerline_fonts=1
+let g:airline_theme='solarized'
 
 " Ale
 let g:ale_linters = {
@@ -291,29 +306,6 @@ nmap <Leader>c :lclose<CR>
 nmap <Leader>, :ll<CR>
 nmap <Leader>n :lnext<CR>
 nmap <Leader>p :lprev<CR>
-
-" Markdown
-let g:markdown_folding = 1
-let g:vim_markdown_no_default_key_mappings = 0
-
-" JavaScript
-let g:jsx_ext_required = 0
-
-" Go
-if fnamemodify(expand('%'), ':e') == "go"
-  let b:SuperTabDefaultCompletionType = "<C-x><C-o>"
-endif
-let g:go_fmt_command = "goimports"
-
-" Rust
-let g:racer_cmd = "racer"
-let g:racer_experimental_completer = 1
-let g:ale_rust_cargo_use_check = 1
-
-"Airline
-let g:airline#extensions#tabline#enable=1
-let g:airline_powerline_fonts=1
-let g:airline_theme='solarized'
 
 "FZF
 nmap <C-p> :Files<CR>
