@@ -283,6 +283,9 @@ let g:airline_powerline_fonts=1
 let g:airline_theme='solarized'
 
 " Ale
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_save = 1
+
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'python': ['pycodestyle'],

@@ -102,6 +102,8 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:~/.cargo/bin
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
+export PATH=$PATH:~/.composer/vendor/bin
+
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='pt -l ""'
@@ -118,5 +120,7 @@ fi
 
 setxkbmap -option ctrl:nocaps # Make Caps Lock a Control key
 
-PATH="$HOME/bin:$PATH"
+
+export PATH="$HOME/bin:$PATH"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
