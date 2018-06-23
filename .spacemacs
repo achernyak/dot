@@ -316,23 +316,47 @@ you should place your code here."
   (add-hook 'org-mode-hook #'auto-fill-mode)
   (add-hook 'markdown-mode-hook #'auto-fill-mode)
 
-  ;; gtd
-  (setq org-agenda-files '("~/gtd/inbox.org"
-                           "~/gtd/gtd.org"
-                           "~/gtd/tickler.org"))
+  ;; Org
+  (setq org-agenda-files '("~/Dropbox/gtd/inbox.org"
+                           "~/Dropbox/gtd/gtd.org"
+                           "~/Dropbox/gtd/tickler.org"))
 
-  (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                                 (file+headline "~/gtd/inbox.org" "Tasks")
-                                 "* TODO %i%?")
-                                ("T" "Tickler" entry
-                                 (file+headline "~/gtd/tickler.org" "Tickler")
-                                 "* %i%? \n %U")))
-
-  (setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
-                             ("~/gtd/someday.org" :level . 1)
-                             ("~/gtd/tickler.org" :maxlevel . 2)))
+  (setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 3)
+                             ("~/Dropbox/gtd/someday.org" :level . 1)
+                             ("~/Dropbox/gtd/tickler.org" :maxlevel . 2)))
 
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+
+  (setq org-capture-templates '(("t" "Todo [inbox]" entry
+                                 (file+headline "~/Dropbox/gtd/inbox.org" "Tasks")
+                                 "* TODO %i%?")
+                                ("T" "Tickler" entry
+                                 (file+headline "~/Dropbox/gtd/tickler.org" "Tickler")
+                                 "* %i%? \n DEADLINE:%^{Deadline}t")
+
+                                ("m" "Morning" entry
+                                 (file+datetree "~/org/journal.org")
+                                 "
+* I am greatful for...
+** %^{greatful-1}
+** %^{greatful-2}
+** %^{greatful-3}
+* What would make today great?
+** %^{great-1}
+** %^{great-2}
+** %^{great-3}
+* Daily affirmation. I am...
+%?")
+                                ("e" "Evening" entry
+                                 (file+datetree "~/org/journal.org")
+                                 "
+* Amazing things that happened today...
+** %^{amazing-1}
+** %^{amazing-2}
+** %^{amazing-3} 
+* How could I have made today even better?
+%?")
+                                ))
   )
 
 
