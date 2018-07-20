@@ -92,7 +92,7 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
-export EDITOR="vim"
+export EDITOR="nvim"
 
 # Go
 export GOPATH=$HOME/go
@@ -117,9 +117,6 @@ alias ti="tmuxinator"
 if [[ "$TERM" != "screen-256color" ]] then
     tmux attach-session -t "$USER" || tmux new-session -s "$USER"
 fi
-
-setxkbmap -option ctrl:nocaps # Make Caps Lock a Control key
-
 
 export PATH="$HOME/bin:$PATH"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
